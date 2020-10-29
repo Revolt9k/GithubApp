@@ -5,13 +5,6 @@ import MainPage from "./components/MainPage";
 
 class App extends React.Component {
 
-
-  // componentDidMount() {
-  // }
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  // }
-
   render() {
     return <MainPage listOfRepos={this.props.listOfRepos}
                      setUser={this.props.getReposThunkCreator}

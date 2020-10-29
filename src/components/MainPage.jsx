@@ -46,6 +46,7 @@ const MainPage = (props) => {
         return <Rep key={rep.id}>{rep.name}</Rep>
     })
 
+
     let inputRef = React.createRef()
     let searchRef = React.createRef()
 
@@ -61,7 +62,7 @@ const MainPage = (props) => {
             </ControlBlock>
 
         </ControlZone>
-            <Title> List of repositories: </Title>
+        <Title> List of repositories: </Title>
             <div>{mappedList}</div>
     </Wrapper>
 

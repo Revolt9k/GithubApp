@@ -2,6 +2,7 @@ import {githubAPI} from "../api/api";
 
 const GET_REPOS = "getRepos";
 const SET_USER = "setUser"
+const CHANGE_PAGE = "changePage"
 
 let initialState = {
     listOfRepos: [
@@ -11,6 +12,7 @@ let initialState = {
         },
     ],
     currentUser: '',
+    currentPage: 1,
 }
 
 const mainPageReducer = (state = initialState, action) => {
@@ -35,13 +37,15 @@ export const setNewRepos = (newReposList) => ({type: GET_REPOS, newReposList})
 
 export const setUser = (user) => ({type: SET_USER, user})
 
+export const changePage = (page) => ({type: CHANGE_PAGE, page})
+
 export const getReposThunkCreator = (user) => async (dispatch) => {
     let data = await githubAPI.getUserRepos(user)
     dispatch(setNewRepos((data)))
 }
 
-export const searchReposThunkCreator = (keyword) => async (dispatch) => {
-    let data = await githubAPI.searchRepos(keyword)
+export const searchReposThunkCreator = (keyword, page, pageSize) => async (dispatch) => {
+    let data = await githubAPI.searchRepos(keyword, page, pageSize)
     dispatch(setNewRepos(data))
 }
 
