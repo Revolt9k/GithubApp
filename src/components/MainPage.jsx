@@ -22,10 +22,11 @@ const MainPage = (props) => {
     background-color: lightgreen;
     height: 46px;
 `
-    const ChangeUserBlock = styled.div`
+    const ControlBlock = styled.div`
     display: flex;
     justify-content: center;
     padding: 25px;
+    margin: 3px;
     background-color: #eee; 
     border: 1px solid black;
     `
@@ -46,13 +47,19 @@ const MainPage = (props) => {
     })
 
     let inputRef = React.createRef()
+    let searchRef = React.createRef()
 
     return <Wrapper>
         <ControlZone>
-            <ChangeUserBlock>
+            <ControlBlock>
                 <div>github.com/ <Input placeholder="User name" ref={inputRef}/></div>
                 <Button onClick={() => props.setUser(inputRef.current.value)}> Checkout User Repositories</Button>
-            </ChangeUserBlock>
+            </ControlBlock>
+            <ControlBlock>
+                <div>Search here <Input placeholder="Keyword here" ref={searchRef}/></div>
+                <Button onClick={() => props.searchRepos(searchRef.current.value)}> Search Repositories</Button>
+            </ControlBlock>
+
         </ControlZone>
             <Title> List of repositories: </Title>
             <div>{mappedList}</div>

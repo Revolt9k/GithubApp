@@ -40,5 +40,10 @@ export const getReposThunkCreator = (user) => async (dispatch) => {
     dispatch(setNewRepos((data)))
 }
 
+export const searchReposThunkCreator = (keyword) => async (dispatch) => {
+    let data = await githubAPI.searchRepos(keyword)
+    dispatch(setNewRepos(data))
+}
+
 
 export default mainPageReducer
