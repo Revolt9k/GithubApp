@@ -46,9 +46,20 @@ const MainPage = (props) => {
         return <Rep key={rep.id}>{rep.name}</Rep>
     })
 
+    let pagesCount = Math.ceil(props.totalReposCount / props.pageSize)
+
+    let pages = [];
+
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
+    }
 
     let inputRef = React.createRef()
     let searchRef = React.createRef()
+
+    let handleChange = () => {
+        props.setSearchValue(searchRef.current.value)
+    }
 
     return <Wrapper>
         <ControlZone>
@@ -57,13 +68,22 @@ const MainPage = (props) => {
                 <Button onClick={() => props.setUser(inputRef.current.value)}> Checkout User Repositories</Button>
             </ControlBlock>
             <ControlBlock>
-                <div>Search here <Input placeholder="Keyword here" ref={searchRef}/></div>
-                <Button onClick={() => props.searchRepos(searchRef.current.value)}> Search Repositories</Button>
+                <div>Search here <Input placeholder="Keyword here" autoFocus  onChange={() => handleChange()} value={props.currentSearchValue} ref={searchRef}/></div>
+                <Button onClick={() => props.searchRepos(props.currentSearchValue, props.currentPage)}> Search Repositories</Button>
             </ControlBlock>
-
         </ControlZone>
         <Title> List of repositories: </Title>
-            <div>{mappedList}</div>
+        <div>{mappedList}</div>
+        <ControlBlock>
+            <div>
+                {pages.map(page => {
+                    return <button key={page}
+                                   onClick={() => {
+                                       props.changePage(page)
+                                   }}> {page} </button>
+                })}
+            </div>
+        </ControlBlock>
     </Wrapper>
 
 

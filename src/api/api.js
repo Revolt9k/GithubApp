@@ -10,10 +10,10 @@ export const githubAPI = {
             return response.data
         })
     },
-    searchRepos(keyword, page = 1,pageSize = 10) {
+    searchRepos(keyword, page, pageSize) {
         return instance.get(`/search/repositories?q=${keyword}&page=${page}&per_page=${pageSize}`, {
         }).then(response => {
-            return response.data.items
+            return response.data
         })
     },
 }
