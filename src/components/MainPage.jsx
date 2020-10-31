@@ -47,7 +47,8 @@ const MainPage = (props) => {
                    rightPortionPageNumber={rightPortionPageNumber}
                    changePage={props.changePage}
                    totalReposCount={props.totalReposCount}
-                   pageSize={props.pageSize}/>
+                   pageSize={props.pageSize}
+                   currentPage={props.currentPage}/>
 
     </Wrapper>
 

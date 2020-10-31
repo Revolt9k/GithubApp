@@ -23,11 +23,15 @@ const Paginator = (props) => {
     `
 
     const Page = styled.button`
-    background-color: #eee;     
+    background-color: #888;     
     margin: 0 3px;
     border-radius: 3px;
     width: 50px;
     height: 50px
+    `
+
+    const CurrentPage = styled(Page)`
+    background-color: #eee;     
     `
 
     return <ControlBlock>
@@ -40,17 +44,24 @@ const Paginator = (props) => {
             {pages
                 .filter(page => page >= props.leftPortionPageNumber && page <= props.rightPortionPageNumber)
                 .map(page => {
-                    return <Page key={page}
-                                   onClick={() => {
-                                       props.changePage(page)
-                                   }}> {page} </Page>
+                    {
+                        return (props.currentPage === page) ?
+                            <Page key={page}
+                                  onClick={() => {
+                                      props.changePage(page)
+                                  }}> {page} </Page> :
+                            <CurrentPage key={page}
+                                         onClick={() => {
+                                             props.changePage(page)
+                                         }}> {page} </CurrentPage>
+                    }
                 })}
-        </div>
-        <div>
-            {props.portionNumber < 10 && props.portionNumber >= 1 && pagesCount > 100 &&
-            <NavButton onClick={() => props.setPortionNumber(props.portionNumber + 1)}> Next </NavButton>}
-        </div>
-    </ControlBlock>
-}
+                </div>
+                <div>
+                {props.portionNumber < 10 && props.portionNumber >= 1 && pagesCount > 100 &&
+                <NavButton onClick={() => props.setPortionNumber(props.portionNumber + 1)}> Next </NavButton>}
+                </div>
+                </ControlBlock>
+                }
 
-export default Paginator
+                export default Paginator
