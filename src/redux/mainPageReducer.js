@@ -9,14 +9,14 @@ const SET_TOTAL_REPOS_COUNT = "SET_TOTAL_REPOS_COUNT"
 let initialState = {
     listOfRepos: [
         {
-            name: 'there will be list of repos when you submit username',
+            name: 'Nothing to show',
             id: 1,
         },
     ],
     currentUser: '',
     currentSearchValue: null,
     currentPage: 1,
-    pageSize: 30,
+    pageSize: 10,
     totalReposCount: null,
 }
 

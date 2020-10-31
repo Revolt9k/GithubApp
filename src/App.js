@@ -8,7 +8,7 @@ class App extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
 
     if(prevProps.currentPage !== this.props.currentPage) {
-      this.props.searchReposThunkCreator(this.props.currentSearchValue, this.props.currentPage)
+      this.props.searchReposThunkCreator(this.props.currentSearchValue, this.props.currentPage, this.props.pageSize)
     }
   }
 

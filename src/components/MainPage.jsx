@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 
 
@@ -42,23 +42,34 @@ const MainPage = (props) => {
     border: 1px solid darkslateblue;
 `
 
+    let inputRef = React.createRef()
+    let searchRef = React.createRef()
+
     let mappedList = props.listOfRepos.map(rep => {
         return <Rep key={rep.id}>{rep.name}</Rep>
     })
 
     let pagesCount = Math.ceil(props.totalReposCount / props.pageSize)
-
     let pages = [];
 
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
 
-    let inputRef = React.createRef()
-    let searchRef = React.createRef()
+    let portionSize = 10;
+
+    let [portionNumber, setPortionNumber] = useState(0)
+    let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1
+    let rightPortionPageNumber = portionNumber * portionSize
+
 
     let handleChange = () => {
         props.setSearchValue(searchRef.current.value)
+    }
+
+    let handleSearch = async () => {
+        await  props.searchRepos(props.currentSearchValue, props.currentPage, props.pageSize)
+        setPortionNumber(1)
     }
 
     return <Wrapper>
@@ -68,20 +79,33 @@ const MainPage = (props) => {
                 <Button onClick={() => props.setUser(inputRef.current.value)}> Checkout User Repositories</Button>
             </ControlBlock>
             <ControlBlock>
-                <div>Search here <Input placeholder="Keyword here" autoFocus  onChange={() => handleChange()} value={props.currentSearchValue} ref={searchRef}/></div>
-                <Button onClick={() => props.searchRepos(props.currentSearchValue, props.currentPage)}> Search Repositories</Button>
+                <div>Search here <Input placeholder="Keyword here" autoFocus onChange={() => handleChange()}
+                                        value={props.currentSearchValue} ref={searchRef}/></div>
+                <Button
+                    onClick={() => handleSearch()}> Search
+                    Repositories</Button>
             </ControlBlock>
         </ControlZone>
         <Title> List of repositories: </Title>
         <div>{mappedList}</div>
         <ControlBlock>
             <div>
-                {pages.map(page => {
-                    return <button key={page}
-                                   onClick={() => {
-                                       props.changePage(page)
-                                   }}> {page} </button>
-                })}
+                {portionNumber > 1 && <button onClick={() => setPortionNumber(portionNumber - 1)}> prev </button>
+                }
+            </div>
+            <div>
+                {pages
+                    .filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
+                    .map(page => {
+                        return <button key={page}
+                                       onClick={() => {
+                                           props.changePage(page)
+
+                                       }}> {page} </button>
+                    })}
+            </div>
+            <div>
+                {portionNumber < 10 &&  portionNumber >= 1 && <button onClick={() => setPortionNumber(portionNumber + 1)}> next</button>}
             </div>
         </ControlBlock>
     </Wrapper>
