@@ -10,11 +10,11 @@ let initialState = {
     listOfRepos: [
         {
             name: 'Nothing to show',
-            id: 1,
+            id: null,
         },
     ],
     currentUser: '',
-    currentSearchValue: null,
+    currentSearchValue:  "",
     currentPage: 1,
     pageSize: 10,
     totalReposCount: null,

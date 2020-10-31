@@ -5,7 +5,6 @@ const Paginator = (props) => {
 
     let pagesCount = Math.ceil(props.totalReposCount / props.pageSize)
     let pages = [];
-
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
@@ -15,29 +14,41 @@ const Paginator = (props) => {
     justify-content: center;
     padding: 25px;
     margin: 3px;
-    background-color: #eee; 
-    border: 1px solid black;
+    background-color: #fff; 
+    `
+    const NavButton = styled.button`
+    background-color: lightgreen;     
+    width: 50px;
+    height: 50px
+    `
+
+    const Page = styled.button`
+    background-color: #eee;     
+    margin: 0 3px;
+    border-radius: 3px;
+    width: 50px;
+    height: 50px
     `
 
     return <ControlBlock>
         <div>
-            {props.portionNumber > 1 && <button onClick={() => props.setPortionNumber(props.portionNumber - 1)}> prev </button>
+            {props.portionNumber > 1 &&
+            <NavButton onClick={() => props.setPortionNumber(props.portionNumber - 1)}> Prev </NavButton>
             }
         </div>
         <div>
             {pages
                 .filter(page => page >= props.leftPortionPageNumber && page <= props.rightPortionPageNumber)
                 .map(page => {
-                    return <button key={page}
+                    return <Page key={page}
                                    onClick={() => {
                                        props.changePage(page)
-
-                                   }}> {page} </button>
+                                   }}> {page} </Page>
                 })}
         </div>
         <div>
-            {props.portionNumber < 10 && props.portionNumber >= 1 &&
-            <button onClick={() => props.setPortionNumber(props.portionNumber + 1)}> next</button>}
+            {props.portionNumber < 10 && props.portionNumber >= 1 && pagesCount > 100 &&
+            <NavButton onClick={() => props.setPortionNumber(props.portionNumber + 1)}> Next </NavButton>}
         </div>
     </ControlBlock>
 }

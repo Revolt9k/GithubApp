@@ -6,7 +6,6 @@ import MainPage from "./components/MainPage";
 class App extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-
     if(prevProps.currentPage !== this.props.currentPage) {
       this.props.searchReposThunkCreator(this.props.currentSearchValue, this.props.currentPage, this.props.pageSize)
     }
@@ -15,14 +14,13 @@ class App extends React.Component {
   render() {
     return <MainPage listOfRepos={this.props.listOfRepos}
                      setUser={this.props.getReposThunkCreator}
-                     searchRepos={this.props.searchReposThunkCreator}
+                     searchReposThunkCreator={this.props.searchReposThunkCreator}
                      changePage={this.props.changePage}
                      pageSize={this.props.pageSize}
                      totalReposCount={this.props.totalReposCount}
                      currentPage={this.props.currentPage}
                      currentSearchValue={this.props.currentSearchValue}
                      setSearchValue={this.props.setSearchValue}
-
     />
   }
 
@@ -38,7 +36,6 @@ let mapStateToProps = (state) => {
     totalReposCount: state.mainPage.totalReposCount,
   }
 }
-
 
 export default connect(mapStateToProps, {getReposThunkCreator, setUser, searchReposThunkCreator, changePage, setSearchValue})(App)
 
