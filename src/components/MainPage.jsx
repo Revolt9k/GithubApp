@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
+import Paginator from "./Paginator";
 
 
 const MainPage = (props) => {
@@ -49,15 +50,9 @@ const MainPage = (props) => {
         return <Rep key={rep.id}>{rep.name}</Rep>
     })
 
-    let pagesCount = Math.ceil(props.totalReposCount / props.pageSize)
-    let pages = [];
 
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
 
     let portionSize = 10;
-
     let [portionNumber, setPortionNumber] = useState(0)
     let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1
     let rightPortionPageNumber = portionNumber * portionSize
@@ -68,9 +63,12 @@ const MainPage = (props) => {
     }
 
     let handleSearch = async () => {
-        await  props.searchRepos(props.currentSearchValue, props.currentPage, props.pageSize)
+        await props.searchRepos(props.currentSearchValue, props.currentPage, props.pageSize)
         setPortionNumber(1)
     }
+
+
+
 
     return <Wrapper>
         <ControlZone>
@@ -88,30 +86,21 @@ const MainPage = (props) => {
         </ControlZone>
         <Title> List of repositories: </Title>
         <div>{mappedList}</div>
-        <ControlBlock>
-            <div>
-                {portionNumber > 1 && <button onClick={() => setPortionNumber(portionNumber - 1)}> prev </button>
-                }
-            </div>
-            <div>
-                {pages
-                    .filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
-                    .map(page => {
-                        return <button key={page}
-                                       onClick={() => {
-                                           props.changePage(page)
+        <Paginator portionNumber={portionNumber}
+                   setPortionNumber={setPortionNumber}
+                   leftPortionPageNumber={leftPortionPageNumber}
+                   rightPortionPageNumber={rightPortionPageNumber}
+                   changePage={props.changePage}
+                   totalReposCount={props.totalReposCount}
+                   pageSize={props.pageSize}
+        />
 
-                                       }}> {page} </button>
-                    })}
-            </div>
-            <div>
-                {portionNumber < 10 &&  portionNumber >= 1 && <button onClick={() => setPortionNumber(portionNumber + 1)}> next</button>}
-            </div>
-        </ControlBlock>
     </Wrapper>
 
 
 }
+
+
 
 
 export default MainPage
